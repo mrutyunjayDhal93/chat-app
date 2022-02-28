@@ -56,6 +56,10 @@ export default function AuthProvider({ children }) {
               const newuser = { ...data.user };
               return newuser;
             });
+            //set auth true
+            dispatch({
+              type: "USERIN",
+            });
           } else {
             /* Error handeling */
           }
@@ -103,6 +107,10 @@ export default function AuthProvider({ children }) {
                 ...data.user,
               };
               return newuser;
+            });
+            //set auth true
+            dispatch({
+              type: "USERIN",
             });
           } else {
             /*Error handeling */

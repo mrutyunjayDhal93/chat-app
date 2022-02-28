@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../../Context/AuthContext";
 import LoginImg from "../../Assets/Img/LoginImg.svg";
 import {
   Input,
@@ -19,8 +20,22 @@ import {
 } from "@chakra-ui/react";
 
 function Login() {
+  //get login fun & auth status from AuthContext
+  const { authcheck, dispatch, login } = useAuth();
+  //set all input's states
   const [phone, setphone] = useState("");
   const [password, setpassword] = useState("");
+
+  //set onClick for login btn
+  const submitLoginBtn = () => {
+    login(phone, password);
+  };
+  //After login btn get clicked navigate to chat ui
+  useEffect(() => {
+    if (authcheck) {
+      /*navigate to chat ui*/
+    }
+  }, [authcheck]);
 
   return (
     <Flex justify="center" alignContent="center" h="100vh" p={8}>
@@ -81,7 +96,13 @@ function Login() {
                 justifyContent="space-between"
                 align="stretch"
               >
-                <Button bg="yellow.400" variant="solid" color="black">
+                <Button
+                  type="submit"
+                  bg="yellow.400"
+                  variant="solid"
+                  color="black"
+                  onClick={submitLoginBtn}
+                >
                   Login
                 </Button>
                 <Box alignSelf={{ sm: "flex-end", md: "center" }}>
