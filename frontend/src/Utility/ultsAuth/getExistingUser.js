@@ -12,7 +12,7 @@ const getExistingUser = async (setUser, dispatch) => {
       //set the user data
       setUser((_olduser) => {
         const newuser = {
-          ...data.user,
+          ...data.User,
         };
         return newuser;
       });
@@ -25,6 +25,9 @@ const getExistingUser = async (setUser, dispatch) => {
     }
   } catch (err) {
     console.log(err.message);
+    dispatch({
+      type: "USEROUT",
+    });
   }
 };
 

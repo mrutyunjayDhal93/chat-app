@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import SigninImg from "../../Assets/Img/SiginImg.svg";
 import { useAuth } from "../../Context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Input,
   FormControl,
@@ -21,22 +22,32 @@ import {
 
 function Signin() {
   //get signin fun & auth status from AuthContext
-  const { authcheck, dispatch, signin } = useAuth();
+  const { authCheck, dispatch, signin } = useAuth();
+
   //set all inputs State
   const [name, setname] = useState("");
-  const [phone, setphone] = useState("");
+  const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [confpassword, setconfpassword] = useState("");
+
+  //set navigater
+  const navigate = useNavigate();
+
   //set onClick for signin btn
   const submitSigninBtn = () => {
-    signin(name, phone, password, confpassword);
+    signin(name, email, password, confpassword);
   };
+
   //After signin btn get clicked navigate to login form
   useEffect(() => {
-    if (authcheck) {
+    console.log(authCheck);
+    if (authCheck) {
       /*navigate to login*/
+      navigate("/auth/login", {
+        replace: true,
+      });
     }
-  }, [authcheck]);
+  }, [authCheck]);
 
   return (
     <Flex justify="center" alignContent="center" h="100vh" p={8}>
@@ -82,11 +93,11 @@ function Signin() {
               {/* Enter phone number */}
               <FormLabel>Phone Number</FormLabel>
               <Input
-                type="number"
-                placeholder="91+"
-                value={phone}
+                type="email"
+                placeholder="test@some.com"
+                value={email}
                 onChange={(e) => {
-                  setphone(e.target.value);
+                  setemail(e.target.value);
                 }}
               />
               {/* Enter password */}
@@ -117,6 +128,7 @@ function Signin() {
                 justifyContent="space-between"
                 align="stretch"
               >
+                {/*btn for submiting sign up form*/}
                 <Button
                   type="submit"
                   bg="yellow.400"
@@ -126,9 +138,13 @@ function Signin() {
                 >
                   Signin
                 </Button>
-                <Box alignSelf={{ sm: "flex-end", md: "center" }}>
-                  <Text fontSize={{ sm: "md", md: "sm" }}>login→</Text>
-                </Box>
+
+                {/*user already has an account*/}
+                <Link to="/auth/login">
+                  <Box alignSelf={{ sm: "flex-end", md: "center" }}>
+                    <Text fontSize={{ sm: "md", md: "sm" }}>login→</Text>
+                  </Box>
+                </Link>
               </Stack>
             </FormControl>
           </VStack>

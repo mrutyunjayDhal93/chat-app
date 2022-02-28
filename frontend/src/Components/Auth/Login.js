@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import LoginImg from "../../Assets/Img/LoginImg.svg";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Input,
   FormControl,
@@ -21,21 +22,29 @@ import {
 
 function Login() {
   //get login fun & auth status from AuthContext
-  const { authcheck, dispatch, login } = useAuth();
+  const { authCheck, dispatch, login } = useAuth();
+
   //set all input's states
-  const [phone, setphone] = useState("");
+  const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+
+  //set navigater
+  const navigate = useNavigate();
 
   //set onClick for login btn
   const submitLoginBtn = () => {
-    login(phone, password);
+    login(email, password);
   };
+
   //After login btn get clicked navigate to chat ui
   useEffect(() => {
-    if (authcheck) {
+    if (authCheck) {
       /*navigate to chat ui*/
+      navigate("/chat", {
+        replace: true,
+      });
     }
-  }, [authcheck]);
+  }, [authCheck]);
 
   return (
     <Flex justify="center" alignContent="center" h="100vh" p={8}>
@@ -70,13 +79,14 @@ function Login() {
               {/* Enter phone number */}
               <FormLabel>Phone Number</FormLabel>
               <Input
-                type="phone"
-                placeholder="91+"
-                value={phone}
+                type="email"
+                placeholder="test@some.com"
+                value={email}
                 onChange={(e) => {
-                  setphone(e.target.value);
+                  setemail(e.target.value);
                 }}
               />
+
               {/* Enter password */}
               <FormLabel>Password</FormLabel>
               <Input
@@ -105,9 +115,13 @@ function Login() {
                 >
                   Login
                 </Button>
-                <Box alignSelf={{ sm: "flex-end", md: "center" }}>
-                  <Text fontSize={{ sm: "md", md: "sm" }}>← signin</Text>
-                </Box>
+
+                {/*if user don't have any account*/}
+                <Link to="/auth/signin">
+                  <Box as="l" alignSelf={{ sm: "flex-end", md: "center" }}>
+                    <Text fontSize={{ sm: "md", md: "sm" }}>← signin</Text>
+                  </Box>
+                </Link>
               </Stack>
             </FormControl>
           </VStack>
