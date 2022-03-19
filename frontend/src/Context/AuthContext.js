@@ -8,24 +8,37 @@ import useAlertToast from "../Utility/ToastGenerater";
 //CREATE CONTEXT
 const authContext = createContext();
 
-// CREATE CUSTOM HOOK TO RETURN useContext() DATAS WITH authContext
+// CUSTOM HOOK FOR useContext()
 export const useAuth = () => useContext(authContext);
 
-//CREATE WRAPPING COMPONENT FOR Auth-Provider
-export default function AuthProvider({ children }) {
+//CREATE WRAPPING COMPONENT Auth-Provider
+function AuthProvider({ children }) {
+  //GOLBAL STATE HANDLERS
   const [authCheck, dispatch] = useReducer(Reducer, initialState); //check Auth or not
   const [user, setuser] = useState({});
 
   //Toast generater
   const Toast = useAlertToast();
 
-  // TRY TO GET USERS, IF USER ALLREADY BEEN LOGED IN
+  /*  
+    description :  get user data by using **userEffect()
+    api : /auth/
+    method : GET [PROTECTED]
+    req : 
+    res : User-{name,email} [200]/[401]  
+  */
   useEffect(() => {
-    //pass seUser to get the User-Data and dispatch to set authcheck
-    getExistingUser(setuser, dispatch);
+    getExistingUser(setuser, dispatch); //pass setUser to get the User-Data and dispatch to set authcheck
   }, []);
 
-  //SIGNIN HANDLER
+  /*------------------------- CREATE METHODS ------------------------ */
+  /*  
+    description :  signin to new user
+    api : /auth/signin
+    method : POST
+    req : name,email,password,cheetCode
+    res : [201]/[500]
+  */
   const signin = async (name, email, password, confpassword) => {
     /*-----------name & phone & password & confpassword hase to be given----------*/
     if (!name || !email || !password || !confpassword) {
@@ -79,7 +92,13 @@ export default function AuthProvider({ children }) {
     }
   };
 
-  //LOGIN HANDLER
+  /*  
+    description :  user get logged in
+    api : /auth/login
+    method : POST 
+    req : email,password
+    res : User-{name,email} [200]/[401]/[401]  
+  */
   const login = async (email, password) => {
     /*-----------------phone & password has to be given-------------------*/
     if (!email || !password) {
@@ -99,10 +118,7 @@ export default function AuthProvider({ children }) {
               "content-type": "application/json",
             },
           };
-          /* send req data to BN and 
-          getting back User data as res
-          and also store token in cookies/session
-          /localstorages in BN */
+
           const { data } = await axios.post(
             "/auth/login",
             {
@@ -137,7 +153,13 @@ export default function AuthProvider({ children }) {
     }
   };
 
-  //LOGOUT HANDLER
+  /* TODO:
+    description :  Logged out user 
+    api : /auth/logout
+    method : POST [PROTECTED]
+    req : **not done yet
+    res : **not done yet 
+  */
   const logout = () => {};
 
   //STORE DATAS AS OBJ TO TRANSFER TO WRAPPED CMPONENTS
@@ -150,6 +172,7 @@ export default function AuthProvider({ children }) {
     logout,
   };
 
+  /*-----------------------RETURN TO RENDER------------------------*/
   return (
     // wrapping childe component by context provider
     <authContext.Provider value={exportingValue}>
@@ -157,3 +180,6 @@ export default function AuthProvider({ children }) {
     </authContext.Provider>
   );
 }
+
+//export chat-context component
+export default AuthProvider;

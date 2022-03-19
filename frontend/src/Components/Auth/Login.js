@@ -1,6 +1,5 @@
+//extarnal imports
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../Context/AuthContext";
-import LoginImg from "../../Assets/Img/LoginImg.svg";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Input,
@@ -19,6 +18,10 @@ import {
   Flex,
   Center,
 } from "@chakra-ui/react";
+
+// internal imports
+import LoginImg from "../../Assets/Img/LoginImg.svg";
+import { useAuth } from "../../Context/AuthContext";
 
 function Login() {
   //get login fun & auth status from AuthContext
@@ -47,9 +50,10 @@ function Login() {
   }, [authCheck]);
 
   return (
-    <Flex justify="center" alignContent="center" h="100vh" p={8}>
+    <Flex justify="center" alignContent="center" h="100vh" p={8} bg={"#FFF"}>
       <Center>
         <Stack
+          bg={{ sm: "#FFBB00", md: "#fff" }}
           boxShadow="lg"
           py="2"
           px="9"
@@ -70,28 +74,40 @@ function Login() {
           />
 
           <Spacer />
-          {/* Login form */}
 
+          {/* Login form */}
           <VStack spacing={4}>
-            <Heading size="lg">Login</Heading>
+            <Heading size="lg" mt={4}>
+              Login
+            </Heading>
 
             <FormControl>
-              {/* Enter phone number */}
-              <FormLabel>Phone Number</FormLabel>
+              <FormLabel>Email</FormLabel>
               <Input
+                bg={"#FFBB00"}
                 type="email"
+                fontWeight={"bold"}
+                _placeholder={{ color: "#1A3365", opacity: "75%" }}
                 placeholder="test@some.com"
+                borderWidth={"2px"}
+                borderColor={"#1A3365"}
+                _hover={{ borderColor: "#1A3365" }}
                 value={email}
                 onChange={(e) => {
                   setemail(e.target.value);
                 }}
               />
 
-              {/* Enter password */}
               <FormLabel>Password</FormLabel>
               <Input
+                bg={"#FFBB00"}
                 type="password"
+                fontWeight={"bold"}
+                _placeholder={{ color: "#1A3365", opacity: "75%" }}
                 placeholder="********"
+                borderWidth={"2px"}
+                borderColor={"#1A3365"}
+                _hover={{ borderColor: "#1A3365" }}
                 value={password}
                 onChange={(e) => {
                   setpassword(e.target.value);
@@ -108,9 +124,10 @@ function Login() {
               >
                 <Button
                   type="submit"
-                  bg="yellow.400"
+                  bg="#1A3365"
                   variant="solid"
-                  color="black"
+                  color="#fff"
+                  _hover={{ bg: "1A3365" }}
                   onClick={submitLoginBtn}
                 >
                   Login
@@ -131,4 +148,5 @@ function Login() {
   );
 }
 
+//export log-in component
 export default Login;

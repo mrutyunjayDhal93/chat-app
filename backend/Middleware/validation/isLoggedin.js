@@ -6,9 +6,9 @@ const isloggedin = async (req, res, next) => {
     const Token = await req.cookies.jwttoken;
     const decode = jwt.verify(Token, process.env.JWT_SECRET);
 
-    const { id, name, email } = decode;
+    const { _id, name, email } = decode;
 
-    req.userId = id;
+    req.userId = _id;
     req.userName = name;
     req.userEmail = email;
     next();

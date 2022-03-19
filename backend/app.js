@@ -12,8 +12,12 @@ const {
 //importing mongoose connector
 const connectDatabase = require("./Config/Db");
 
+//importing ROUTERS
 const AuthRouter = require("./Routers/AuthRouter");
+const UserRouter = require("./Routers/UserRouter");
 const ChatRouter = require("./Routers/ChatRouter");
+const MessageRouter = require("./Routers/MessageRouter");
+const NotifyRouter = require("./Routers/NotifyRouter");
 
 //CONNECT TO DB
 connectDatabase();
@@ -35,7 +39,10 @@ const port = process.env.PORT || 5000;
 
 //CONNECT ALL ROUTERS
 app.use("/auth", AuthRouter); // routes -> getData/ login/ signin/ logout
+app.use("/user", UserRouter);
 app.use("/chat", ChatRouter);
+app.use("/message", MessageRouter);
+app.use("/notify", NotifyRouter);
 
 //ERROR HANDELING
 app.use(notfoundErrorHandler); //404->not found error handeling

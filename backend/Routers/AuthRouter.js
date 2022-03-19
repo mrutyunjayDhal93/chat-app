@@ -1,5 +1,5 @@
 const express = require("express");
-const isloggedin = require("../Middleware/validation/isLoggedin");
+const protected = require("../Middleware/validation/isLoggedin");
 
 //importting all Validators
 const {
@@ -8,7 +8,10 @@ const {
   authValidation,
 } = require("../Middleware/validation/reqValidator");
 
-//importting Auth related Handlers
+//Initialise Router
+const AuthRouter = express.Router();
+
+//IMP HANDLER
 const {
   getDataHandler,
   signinHandler,
@@ -16,22 +19,42 @@ const {
   logoutHandler,
 } = require("../Handler/authHandler");
 
-//generate the router
-const AuthRouter = express.Router();
+/*------------------------- CREATE ROUTES ------------------------ */
+/*  
+    description :  GET USER DATA
+    api : /auth/
+    method : GET [PROTECTED]
+    req : 
+    res : User-{name,email} [200]/[401]  
+*/
+AuthRouter.get("/", protected, getDataHandler);
 
-/* -------------------MAKE ALL AUTH-ROUTERS CALL----------------- */
-
-//Router for getting data if user allready been logged-in
-AuthRouter.get("/", isloggedin, getDataHandler);
-
-//Router for signin
+/*  
+    description :  signin to new user
+    api : /auth/signin
+    method : POST
+    req : name,email,password,cheetCode
+    res : [201]/[500]
+*/
 AuthRouter.post("/signin", signinValidator, authValidation, signinHandler);
 
-//Router for login
+/*  
+    description :  user get logged in
+    api : /auth/login
+    method : POST 
+    req : email,password
+    res : User-{name,email} [200]/[401]/[401]  
+*/
 AuthRouter.post("/login", loginValidation, authValidation, loginHandler);
 
-//Router for Logout
+/* TODO: 
+    description :  Logged out user 
+    api : /auth/logout
+    method : POST [PROTECTED]
+    req : **not done yet
+    res : **not done yet 
+*/
 AuthRouter.post("/logout", logoutHandler);
 
-//EXPORT AUTH-ROUTER MODULE
+//EXPORT AUTH-ROUTER
 module.exports = AuthRouter;

@@ -18,6 +18,7 @@ import {
   Text,
   Center,
   Box,
+  HStack,
 } from "@chakra-ui/react";
 
 function Signin() {
@@ -40,7 +41,6 @@ function Signin() {
 
   //After signin btn get clicked navigate to login form
   useEffect(() => {
-    console.log(authCheck);
     if (authCheck) {
       /*navigate to login*/
       navigate("/auth/login", {
@@ -50,24 +50,20 @@ function Signin() {
   }, [authCheck]);
 
   return (
-    <Flex justify="center" alignContent="center" h="100vh" p={8}>
+    <Flex justify="center" alignContent="center" h="100vh" p={8} bg={"#FFF"}>
       <Center>
-        <Stack
+        <HStack
+          bg={{ sm: "#FFBB00", md: "#fff" }}
           boxShadow="lg"
-          py="4"
-          px="9"
+          p={8}
           rounded="lg"
-          direction={{
-            sm: "column-reverse",
-            md: "row",
-          }}
-          spacing="20px"
-          align="stretch"
+          justifyContent={"space-between"}
         >
           {/* Illustartion */}
           <Image
             src={SigninImg}
-            boxSize={{ sm: "0px", md: "sm" }}
+            d={{ sm: "none", md: "block" }}
+            boxSize="sm"
             objectFit="cover"
             alt="Log-in Img"
           />
@@ -75,46 +71,62 @@ function Signin() {
           <Spacer />
           {/* Signin form */}
 
-          <VStack spacing={4} py={{ sm: 0.5, md: 4 }} align="stretch">
+          <VStack spacing={4}>
             <Heading size="lg">SignUp</Heading>
 
             <FormControl>
-              {/* Enter User Name */}
               <FormLabel>User Name</FormLabel>
               <Input
+                bg={"#FFBB00"}
                 type="text"
+                _placeholder={{ color: "#1A3365", opacity: "75%" }}
                 placeholder="Enter your Name"
+                borderWidth={"2px"}
+                borderColor={"#1A3365"}
+                _hover={{ borderColor: "#1A3365" }}
                 value={name}
                 onChange={(e) => {
                   setname(e.target.value);
                 }}
               />
 
-              {/* Enter phone number */}
-              <FormLabel>Phone Number</FormLabel>
+              <FormLabel>Email</FormLabel>
               <Input
+                bg={"#FFBB00"}
                 type="email"
+                _placeholder={{ color: "#1A3365", opacity: "75%" }}
                 placeholder="test@some.com"
+                borderWidth={"2px"}
+                borderColor={"#1A3365"}
+                _hover={{ borderColor: "#1A3365" }}
                 value={email}
                 onChange={(e) => {
                   setemail(e.target.value);
                 }}
               />
-              {/* Enter password */}
               <FormLabel>Password</FormLabel>
               <Input
+                bg={"#FFBB00"}
                 type="password"
+                _placeholder={{ color: "#1A3365", opacity: "75%" }}
                 placeholder="********"
+                borderWidth={"2px"}
+                borderColor={"#1A3365"}
+                _hover={{ borderColor: "#1A3365" }}
                 value={password}
                 onChange={(e) => {
                   setpassword(e.target.value);
                 }}
               />
-              {/* Conferm Password*/}
               <FormLabel>Conferm Password</FormLabel>
               <Input
+                bg={"#FFBB00"}
                 type="password"
+                _placeholder={{ color: "#1A3365", opacity: "75%" }}
                 placeholder="********"
+                borderWidth={"2px"}
+                borderColor={"#1A3365"}
+                _hover={{ borderColor: "#1A3365" }}
                 value={confpassword}
                 onChange={(e) => {
                   setconfpassword(e.target.value);
@@ -131,9 +143,10 @@ function Signin() {
                 {/*btn for submiting sign up form*/}
                 <Button
                   type="submit"
-                  bg="yellow.400"
+                  bg="#1A3365"
                   variant="solid"
-                  color="black"
+                  color="white"
+                  _hover={{ bg: "1A3365" }}
                   onClick={submitSigninBtn}
                 >
                   Signin
@@ -148,7 +161,7 @@ function Signin() {
               </Stack>
             </FormControl>
           </VStack>
-        </Stack>
+        </HStack>
       </Center>
     </Flex>
   );

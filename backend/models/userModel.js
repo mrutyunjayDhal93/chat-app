@@ -16,11 +16,22 @@ const UserSchema = new Schema({
     type: String,
     require: true,
   },
-  // role: {
-  //   type: String,
-  //   enum: ["admin", "user"],
-  //   default: "user",
-  // },
+
+  cheetCode: String,
+
+  ping: [
+    {
+      code: String,
+      connectionName: String,
+    },
+  ],
+
+  connectedUser: [
+    {
+      id: mongoose.Schema.Types.ObjectId,
+      name: String,
+    },
+  ],
 });
 
 module.exports = mongoose.model("User", UserSchema);
